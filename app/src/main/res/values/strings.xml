@@ -1,17 +1,10 @@
 <resources>
     <string name="app_name">WeatherApp</string>
-    <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">Weather Fragment</string>
     <string name="second_fragment_label">Favourite Cites</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
     <string name="err_message">OOPs! Something Went Wrong. Please try latter</string>
-    <string name="empty_list">Sorry No fav yet</string>
     <string name="cached_data">"Error Occurred! Cache Copy Shown"</string>
 
     <string name="locus_rationale_title">Rationale Title</string>
