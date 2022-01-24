@@ -37,8 +37,8 @@ jobs:
     - name: upload artifact to Firebase App Distribution
       uses: digtechgenius/WeatherApp@master
       with:
-        appId: '1:1043505561377:android:1327d4fdeba1a64a318860'
-        token: '1//03rGbxus4E6GcCgYIARAAGAMSNwF-L9Ir7pZUV6znQn7yKkQouYiry4i_Hs34117OfLiddA42XdvRU1F52cHv8aY--dnHvVnYMLI'
+        appId: 'APP_ID_TO_ADD'
+        token: 'FIREBASE_TOKEN_TO_ADD'
         groups: Demo
         file: app/build/outputs/apk/debug/app-debug.apk
 
