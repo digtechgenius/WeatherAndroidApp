@@ -28,12 +28,17 @@ fun WeatherDetailView(setFav: () -> Unit, isFav: Boolean, weatherEntity: Weather
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Row (   modifier = Modifier.fillMaxWidth().padding(
-            top = 20.dp,
-            start = 20.dp,
-            end = 20.dp),
-            horizontalArrangement = Arrangement.SpaceBetween ){
-            IconButton(modifier = Modifier.then(Modifier.size(24.dp)),
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    top = 8.dp,
+                    start = 8.dp,
+                    end = 8.dp
+                ),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            IconButton(modifier = Modifier.size(35.dp),
                 onClick = {
                     setFav()
                 }) {
@@ -41,19 +46,20 @@ fun WeatherDetailView(setFav: () -> Unit, isFav: Boolean, weatherEntity: Weather
                 Icon(
                     imageVector = iconFav,
                     "contentDescription",
-                    tint = MaterialTheme.colors.onSurface
+                    tint = MaterialTheme.colors.onSurface,
+                    modifier = Modifier.size(35.dp)
                 )
             }
-            Text(text = weatherEntity.name, style = MaterialTheme.typography.h2 )
-            IconButton(modifier = Modifier.then(Modifier.size(24.dp)),
+            Text(text = weatherEntity.name, style = MaterialTheme.typography.h2)
+            IconButton(modifier = Modifier.size(35.dp),
                 onClick = {
-
                     fetchLocation()
                 }) {
                 Icon(
                     Icons.Filled.LocationOn,
                     "contentDescription",
-                    tint = MaterialTheme.colors.onSurface
+                    tint = MaterialTheme.colors.onSurface,
+                    modifier = Modifier.size(35.dp)
                 )
             }
         }

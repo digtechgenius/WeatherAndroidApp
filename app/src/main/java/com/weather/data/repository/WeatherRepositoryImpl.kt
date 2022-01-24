@@ -9,6 +9,7 @@ import com.weather.data.dto.WeatherEntityMapper
 import com.weather.data.local.FavCitiesDao
 import com.weather.data.local.WeatherDao
 import com.weather.data.remote.WeatherApiService
+import com.weather.utils.AppConstants.STANDARD_ERROR_MESSAGE
 import com.weather.utils.AppConstants.sessionLocalWeatherValid
 import com.weather.utils.DataResponse
 import kotlinx.coroutines.flow.Flow
@@ -63,7 +64,7 @@ class WeatherRepositoryImpl @Inject constructor(
             weatherCity = localWeather
             emit(DataResponse.Cache((localWeather)))
         } else {
-            emit(DataResponse.Error)
+            emit(DataResponse.Error(STANDARD_ERROR_MESSAGE))
         }
     }
 
@@ -105,7 +106,7 @@ class WeatherRepositoryImpl @Inject constructor(
             weatherCity = localWeather
             emit(DataResponse.Cache((localWeather)))
         } else {
-            emit(DataResponse.Error)
+            emit(DataResponse.Error(STANDARD_ERROR_MESSAGE))
         }
     }
 
@@ -133,7 +134,7 @@ class WeatherRepositoryImpl @Inject constructor(
             try {
                 emit(DataResponse.Success((favDataSource.getAllFav())))
             } catch (ex: Exception) {
-                emit(DataResponse.Error)
+                emit(DataResponse.Error(STANDARD_ERROR_MESSAGE))
             }
         }
     }
@@ -149,7 +150,7 @@ class WeatherRepositoryImpl @Inject constructor(
          try {
             emit(DataResponse.Success(favDataSource.getFavCityByID(weatherCity.cityId)))
         } catch (ex: Exception) {
-            emit(DataResponse.Error)
+            emit(DataResponse.Error(STANDARD_ERROR_MESSAGE))
         }
       }
     } */

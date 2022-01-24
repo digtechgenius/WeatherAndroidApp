@@ -20,12 +20,12 @@ val QuickSandTypography = Typography(
     h1 = TextStyle(
         fontFamily = QuickSand,
         fontWeight = FontWeight.W500,
-        fontSize = 34.sp,
+        fontSize = 32.sp,
     ),
     h2 = TextStyle(
         fontFamily = QuickSand,
         fontWeight = FontWeight.W500,
-        fontSize = 28.sp,
+        fontSize = 26.sp,
     ),
     h3 = TextStyle(
         fontFamily = QuickSand,

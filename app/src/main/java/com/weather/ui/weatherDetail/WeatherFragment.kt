@@ -24,6 +24,8 @@ import com.weather.utils.AppConstants
 import com.weather.utils.DataResponse
 import dagger.hilt.android.AndroidEntryPoint
 
+@ExperimentalFoundationApi
+@ExperimentalComposeUiApi
 @AndroidEntryPoint
 class WeatherFragment : Fragment() {
     private val viewModels by viewModels<WeatherViewModel>()
@@ -39,8 +41,7 @@ class WeatherFragment : Fragment() {
         }
     }
 
-    @ExperimentalFoundationApi
-    @ExperimentalComposeUiApi
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -53,7 +54,7 @@ class WeatherFragment : Fragment() {
                         val isFav = viewModels.isFav.value
                         val query = remember { mutableStateOf("") }
                         AppTheme(
-                             content =
+                            content =
                             {
                                 Scaffold(
                                     topBar = {
@@ -100,7 +101,7 @@ class WeatherFragment : Fragment() {
                                             viewModels.getFav()
                                         }
                                         is DataResponse.Error -> {
-                                            ErrorMessage("OOPS! Error \n Please check your search name and internet ")
+                                            ErrorMessage(uiState.message)
                                         }
                                     }
                                 }

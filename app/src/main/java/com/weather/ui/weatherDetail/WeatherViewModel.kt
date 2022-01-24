@@ -1,7 +1,10 @@
 package com.weather.ui.weatherDetail
 
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.weather.R
 import com.weather.data.dto.FavCities
 import com.weather.data.dto.LocationData
@@ -9,8 +12,8 @@ import com.weather.data.dto.WeatherEntity
 import com.weather.data.repository.WeatherRepositoryImpl
 import com.weather.ui.components.WeatherGridViewData
 import com.weather.utils.Analytics
-import com.weather.utils.DataResponse
 import com.weather.utils.AppConstants
+import com.weather.utils.DataResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -30,16 +33,21 @@ class WeatherViewModel  @Inject constructor(
 
     val isFav = mutableStateOf(false)
 
-    fun getCurrentWeather(){
-       val  location: LocationData = LocationData(AppConstants.location.latitude,AppConstants.location.longitude)
+    init {
+        updateWeatherLiveData(DataResponse.Error("Please search weather"))
+    }
+
+    fun getCurrentWeather() {
+        val location =
+            LocationData(AppConstants.location.latitude, AppConstants.location.longitude)
         viewModelScope.launch {
-           repository.getLocalWeather(location).collect {
-               updateWeatherLiveData( it)
-           }
+            repository.getLocalWeather(location).collect {
+                updateWeatherLiveData(it)
+            }
         }
     }
 
-    fun searchWeather(location: String){
+    fun searchWeather(location: String) {
         Analytics.logEvents("City", location) // Demo purpose
         viewModelScope.launch {
             repository.searchWeather(location).collect {
@@ -78,9 +86,21 @@ class WeatherViewModel  @Inject constructor(
 
 
     fun fillWeatherUI(weather : WeatherEntity): List<WeatherGridViewData> {
-        var list: ArrayList<WeatherGridViewData> = ArrayList();
-        list.add(WeatherGridViewData(R.drawable.ic_wi_thermometer, "Min temp:", weather.minTemperature))
-        list.add(WeatherGridViewData(R.drawable.ic_wi_thermometer, "Max temp:", weather.maxTemperature))
+        val list: ArrayList<WeatherGridViewData> = ArrayList()
+        list.add(
+            WeatherGridViewData(
+                R.drawable.ic_wi_thermometer,
+                "Min temp",
+                weather.minTemperature
+            )
+        )
+        list.add(
+            WeatherGridViewData(
+                R.drawable.ic_wi_thermometer,
+                "Max temp",
+                weather.maxTemperature
+            )
+        )
         list.add(WeatherGridViewData(R.drawable.ic_sunrise, "Sunrise", weather.sunrise))
         list.add(WeatherGridViewData(R.drawable.ic_sunset, "Sunset", weather.sunset))
         list.add(WeatherGridViewData(R.drawable.ic_wind, "Wind", weather.windSpeed))
