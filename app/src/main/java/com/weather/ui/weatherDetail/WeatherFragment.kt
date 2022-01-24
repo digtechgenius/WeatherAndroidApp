@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.mutableStateOf
@@ -21,6 +22,7 @@ import com.weather.ui.components.SearchAppBar
 import com.weather.ui.components.WeatherDetailView
 import com.weather.ui.theme.AppTheme
 import com.weather.utils.AppConstants
+import com.weather.utils.AppConstants.LOCATION_ERROR_MESSAGE
 import com.weather.utils.DataResponse
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,7 +31,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class WeatherFragment : Fragment() {
     private val viewModels by viewModels<WeatherViewModel>()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +41,6 @@ class WeatherFragment : Fragment() {
             viewModels.searchWeather(city)
         }
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -115,12 +115,16 @@ class WeatherFragment : Fragment() {
     }
 
     private fun fetchLocation() {
-        Locus.getCurrentLocation(requireContext()) { result ->
-            result.location?.let {
-                AppConstants.location = it
-                viewModels.getCurrentWeather()
-            }
-            result.error?.let {
+        context?.let {
+            Locus.getCurrentLocation(it) { result ->
+                result.location?.let {
+                    AppConstants.location = it
+                    viewModels.getCurrentWeather()
+                }
+                result.error?.let {
+                    Toast.makeText(requireContext(), LOCATION_ERROR_MESSAGE, Toast.LENGTH_SHORT)
+                        .show()
+                }
             }
         }
     }

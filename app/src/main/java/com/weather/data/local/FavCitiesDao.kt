@@ -14,7 +14,7 @@ interface FavCitiesDao {
     suspend fun insertFavCity(favCities: FavCities)
 
     @Query("SELECT * FROM tb_fav where city_id = :cityId LIMIT 1")
-    suspend fun getFavCityByID(cityId: Int): FavCities
+    suspend fun getFavCityByID(cityId: Int): FavCities?
 
     @Query("SELECT * FROM tb_fav where fav == 1")
     suspend fun getAllFav(): List<FavCities>

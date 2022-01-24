@@ -2,8 +2,11 @@ package com.weather.ui.theme
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.darkColors
+import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 
 
 @SuppressLint("ConflictingOnColor")
@@ -11,27 +14,28 @@ private val LightThemeColors = lightColors(
     primary = Blue600,
     primaryVariant = Blue400,
     onPrimary = Black2,
-    secondary = WhitePlain,
-    onSecondary = BlackPlain,
+    secondary = Color.White,
+    onSecondary = Color.Black,
     error = RedErrorDark,
+    onError = RedErrorLight,
     background = Grey,
-    onBackground = BlackPlain,
-    surface = WhitePlain,
-    onSurface = WhitePlain,
+    onBackground = Color.Black,
+    surface = Color.White,
+    onSurface = Black2,
 )
 
 @SuppressLint("ConflictingOnColor")
 private val DarkThemeColors = darkColors(
     primary = Blue700,
-    primaryVariant = WhitePlain,
-    onPrimary = WhitePlain,
-    secondary = BlackPlain,
-    onSecondary = WhitePlain,
+    primaryVariant = Color.White,
+    onPrimary = Color.White,
+    secondary = Black1,
+    onSecondary = Color.White,
     error = RedErrorLight,
-    background = BlackPlain,
-    onBackground = WhitePlain,
-    surface = BlackPlain,
-    onSurface = WhitePlain,
+    background = Color.Black,
+    onBackground = Color.White,
+    surface = Black1,
+    onSurface = Color.White,
 )
 
 @Composable

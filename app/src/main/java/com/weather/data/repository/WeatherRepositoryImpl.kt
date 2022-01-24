@@ -27,6 +27,8 @@ class WeatherRepositoryImpl @Inject constructor(
     private lateinit var weatherCity: WeatherEntity
     private lateinit var favCities: FavCities
 
+    private fun isWeatherInitialised() = ::weatherCity.isInitialized
+    private fun isFavInitialised() = ::favCities.isInitialized
 
     private val prefs = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -34,9 +36,9 @@ class WeatherRepositoryImpl @Inject constructor(
         return flow {
             emit(DataResponse.Loading)
             try {
-                if (sessionLocalWeatherValid){ // reduce repeated call by practical session management
+                if (sessionLocalWeatherValid) { // reduce repeated call by practical session management
                     localWeatherCachedResult()
-                }  else { // regular flow
+                } else { // regular flow
                     val response =
                         remoteDataSource.getCurrentWeather(location.lat, location.lon, "Metric")
                     if (response.isSuccessful) {
@@ -47,6 +49,7 @@ class WeatherRepositoryImpl @Inject constructor(
                             weatherCity = weatherEntity
                             emit(DataResponse.Success((weatherEntity)))
                             storeWeatherData(weatherEntity)
+                            sessionLocalWeatherValid = true
                         }
                     } else {
                         localWeatherCachedResult() // failure case
@@ -76,9 +79,9 @@ class WeatherRepositoryImpl @Inject constructor(
         return flow {
             emit(DataResponse.Loading)
             try {
-                if (weatherCity.name == (location)){ // reduce repeated call
+                if (isWeatherInitialised() && weatherCity.name == location) { // reduce repeated call
                     searchWeatherCachedResult(location)
-                }  else { // regular flow
+                } else { // regular flow
                     val response = remoteDataSource.getSpecificWeather(location, "Metric")
                     if (response.isSuccessful) {
                         response.body()?.let {
@@ -119,13 +122,15 @@ class WeatherRepositoryImpl @Inject constructor(
     }
 
     suspend fun addFavCity() {
-        if (!this::favCities.isInitialized) {
-            favCities =
-                FavCities(cityId = weatherCity.cityId, cityName = weatherCity.name, fav = true)
-        } else {
-            favCities.fav = !favCities.fav
+        if (isWeatherInitialised()) { // rare boundary case if there is no session value then nothing to add
+            if (!isFavInitialised()) { // means city does not exist in fav DB. So add it as fav first time
+                favCities =
+                    FavCities(cityId = weatherCity.cityId, cityName = weatherCity.name, fav = true)
+            } else { // toggle fav
+                favCities.fav = !favCities.fav
+            }
+            favDataSource.insertFavCity(favCities)
         }
-        favDataSource.insertFavCity(favCities)
     }
 
     suspend fun getFavCities(): Flow<DataResponse<List<FavCities>>> {
@@ -139,19 +144,9 @@ class WeatherRepositoryImpl @Inject constructor(
         }
     }
 
-    suspend fun getFavCityID(): Flow<FavCities> {
+    suspend fun getFavCityID(): Flow<FavCities?> {
         return flow {
             emit(favDataSource.getFavCityByID(weatherCity.cityId))
         }
     }
-    /*
-    suspend fun getFavCityID(): Flow<DataResponse<FavCities>> {
-        return flow {
-         try {
-            emit(DataResponse.Success(favDataSource.getFavCityByID(weatherCity.cityId)))
-        } catch (ex: Exception) {
-            emit(DataResponse.Error(STANDARD_ERROR_MESSAGE))
-        }
-      }
-    } */
 }

@@ -23,20 +23,20 @@ fun WeatherGridCardView(icon: Int, label: String, value: String  ) {
         shape = AppShapes.large,
         modifier = Modifier
             .padding(
-                bottom = 20.dp,
-                top = 20.dp,
-                start = 20.dp,
-                end = 20.dp
+                bottom = 10.dp,
+                top = 10.dp,
+                start = 10.dp,
+                end = 10.dp
             )
             .background(color = MaterialTheme.colors.secondary),
         elevation = 8.dp,
     ) {
         Column(verticalArrangement = Arrangement.Top, horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
             .padding(
-                bottom = 20.dp,
-                top = 20.dp,
-                start = 20.dp,
-                end =20.dp
+                bottom = 10.dp,
+                top = 10.dp,
+                start = 10.dp,
+                end = 10.dp
             )) {
             Icon(painterResource(icon),label, modifier = Modifier.size(40.dp), tint = MaterialTheme.colors.onSurface)
             Spacer(modifier = Modifier.height(6.dp))

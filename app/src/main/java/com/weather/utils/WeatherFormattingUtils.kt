@@ -1,23 +1,41 @@
 package com.weather.utils
 
 import android.text.format.DateFormat
+import timber.log.Timber
 import java.util.*
+
 
 object WeatherFormattingUtils {
 
-    fun convertTimestampToDate(timestamp:Long):String{
-        val calendar = Calendar.getInstance(Locale.ENGLISH)
-        calendar.timeInMillis = timestamp * 1000L
-        val date = DateFormat.format("dd-MM-yyyy",calendar).toString()
-        return "Updated at: $date"
+    fun convertTimestampToDate(timestamp: Long): String {
+        var dateShown = ""
+        try {
+            val calendar = Calendar.getInstance()
+            val tz = TimeZone.getDefault()
+            calendar.timeInMillis = timestamp * 1000
+            calendar.add(Calendar.MILLISECOND, tz.getOffset(calendar.timeInMillis))
+            val date = DateFormat.format("dd-MM-yyyy HH:mm", calendar).toString()
+            dateShown = "Updated at: $date"
+        } catch (ex: Exception) {
+            Timber.tag("Date parse error")
+        }
+        return dateShown
     }
 
-    fun getHourAndMinute(timestamp: Long):String{
-        val calendar = Calendar.getInstance(Locale.ENGLISH)
-        calendar.timeInMillis = timestamp * 1000L
-        val hour = calendar.get(Calendar.HOUR_OF_DAY)
-        val minute = calendar.get(Calendar.MINUTE)
-        return "${hour}:${minute}"
+    fun getHourAndMinute(timestamp: Long): String {
+        var timeShown = ""
+        try {
+            val calendar = Calendar.getInstance()
+            val tz = TimeZone.getDefault()
+            calendar.timeInMillis = timestamp * 1000
+            calendar.add(Calendar.MILLISECOND, tz.getOffset(calendar.timeInMillis))
+            val hour = calendar.get(Calendar.HOUR_OF_DAY)
+            val minute = calendar.get(Calendar.MINUTE)
+            timeShown = "${hour}:${minute}"
+        } catch (ex: Exception) {
+            Timber.tag("time parse error")
+        }
+        return timeShown
     }
 
     fun getTemp(temp: Double): String {
@@ -36,15 +54,15 @@ object WeatherFormattingUtils {
         return "$temp ℃"
     }
 
-    fun getWindSpeed(speed:String): String {
+    fun getWindSpeed(speed: String): String {
         return "$speed m/s"
     }
 
-    fun getPressure(pressure:Int): String {
+    fun getPressure(pressure: Int): String {
         return "$pressure hPa"
     }
 
-    fun getHumidity(pressure:String): String {
+    fun getHumidity(pressure: String): String {
         return "$pressure %"
     }
 }

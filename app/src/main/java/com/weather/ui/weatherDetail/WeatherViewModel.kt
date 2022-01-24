@@ -68,7 +68,7 @@ class WeatherViewModel  @Inject constructor(
         }
     }
 
-    fun getFav(){
+    fun getFav() {
         viewModelScope.launch {
             repository.getFavCityID().collect {
                 updateUiFav(it)
@@ -76,16 +76,16 @@ class WeatherViewModel  @Inject constructor(
         }
     }
 
-    private fun updateUiFav(it: FavCities) {
-            if (it !=null){
-                isFav.value = it.fav
-            } else{
-                isFav.value = false
-            }
+    private fun updateUiFav(it: FavCities?) {
+        if (it != null) {
+            isFav.value = it.fav
+        } else {
+            isFav.value = false
+        }
     }
 
 
-    fun fillWeatherUI(weather : WeatherEntity): List<WeatherGridViewData> {
+    fun fillWeatherUI(weather: WeatherEntity): List<WeatherGridViewData> {
         val list: ArrayList<WeatherGridViewData> = ArrayList()
         list.add(
             WeatherGridViewData(

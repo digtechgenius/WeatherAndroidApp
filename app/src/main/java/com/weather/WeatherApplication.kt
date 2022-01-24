@@ -1,17 +1,16 @@
 package com.weather
 
 import android.app.Application
-import androidx.compose.runtime.mutableStateOf
 import com.google.firebase.FirebaseApp
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import dagger.hilt.android.HiltAndroidApp
-import timber.log.Timber
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
-import com.weather.utils.Analytics
 import com.weather.di.AppModule
+import com.weather.utils.Analytics
 import com.weather.utils.AppConstants
 import com.weather.utils.AppConstants.FIREBASE_CONFIG_UPDATE
 import com.weather.utils.RemoteConfigs
+import dagger.hilt.android.HiltAndroidApp
+import timber.log.Timber
 
 @HiltAndroidApp
 class WeatherApplication : Application() {
@@ -45,7 +44,6 @@ class WeatherApplication : Application() {
                     RemoteConfigs.isUpdateReq = remoteConfig.getBoolean(AppConstants.KEY_UPDATE_REQUIRED)
                     RemoteConfigs.updateVersion = remoteConfig.getString(AppConstants.KEY_CURRENT_VERSION)
                     RemoteConfigs.updateURL = remoteConfig.getString(AppConstants.KEY_UPDATE_URL)
-
                 }
             }
     }
